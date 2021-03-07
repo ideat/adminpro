@@ -1,4 +1,14 @@
 import { Component, OnInit } from '@angular/core';
+import { AbstractControl, FormControl, FormGroup,  ValidationErrors,  Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
+import { Usuario } from '../models/usuario.model';
+import { UsuarioService } from '../services/service.index';
+
+
+// import * as swal from 'sweetalert';
+
+declare function init_plugins():any;
 
 @Component({
   selector: 'app-register',
@@ -7,9 +17,73 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RegisterComponent implements OnInit {
 
-  constructor() { }
+  forma!: FormGroup
+
+  constructor(
+    public _usuarioService:UsuarioService,
+    public router: Router
+
+  ) { }
+
+  sonIguales(campo1: string, campo2:string){
+
+    return( formGroup: AbstractControl): ValidationErrors | null =>{
+      
+      let pass1 = formGroup.get(campo1)?.value;
+      let pass2 = formGroup.get(campo2)?.value;
+
+      if( pass1 === pass2){
+        return null;
+      }
+
+      return {
+        sonIguales: true
+      };
+    };
+
+  }
 
   ngOnInit() {
+
+    init_plugins();
+
+    this.forma = new FormGroup({
+      nombre: new FormControl( null, Validators.required),
+      correo: new FormControl( null, [Validators.required, Validators.email]),
+      password: new FormControl( null, Validators.required),
+      password2: new FormControl(  null, Validators.required),
+      condiciones: new FormControl( false)
+    }, { validators: [this.sonIguales('password','password2')] });
+
+    this.forma.setValue({
+      nombre: 'Test',
+      correo: 'test@test.com',
+      password: '123456',
+      password2: '123456',
+      condiciones: true
+    });
+  }
+
+  registrarUsuario(){
+
+    if( this.forma.invalid){
+      return;
+    }
+
+    if(!this.forma.value.condiciones){
+      Swal.fire('Importante','Debe aceptar las condiciones','warning');
+      return;
+    }
+
+    let usuario = new Usuario(
+      this.forma.value.nombre,
+      this.forma.value.correo,
+      this.forma.value.password
+    );
+
+    this._usuarioService.crearUsuario( usuario )
+      .subscribe( resp => this.router.navigate( ['/login'])
+      );
   }
 
 }

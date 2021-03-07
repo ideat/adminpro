@@ -16,7 +16,6 @@ export class BreadcrumbsComponent implements OnInit {
               private meta: Meta  
         ) {
     
-    
     this.getDataRoute()
     .subscribe( data => {
         console.log(data);

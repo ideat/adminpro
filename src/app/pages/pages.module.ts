@@ -11,6 +11,9 @@ import { Graficas1Component } from "./graficas1/graficas1.component";
 import { PagesComponent } from './pages.component';
 import { ProgressComponent } from "./progress/progress.component";
 
+// Pipe Module
+import { PipesModule } from "../pipes/pipes.module";
+
 //Temporal
 import { IncrementadorComponent } from "../components/incrementador/incrementador.component";
 import { GraficoDonaComponent } from '../components/grafico-dona/grafico-dona.component';
@@ -39,7 +42,8 @@ import { RxjsComponent } from './rxjs/rxjs.component';
         SharedModule,
         PAGES_ROUTES,
         FormsModule,
-        ChartsModule
+        ChartsModule,
+        PipesModule
     ]
 })
 
