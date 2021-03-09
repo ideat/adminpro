@@ -23,7 +23,7 @@ export class SubirArchivoService {
         if (xhr.readyState === 4){ //estado indica que termino el proceso
   
           if (xhr.status == 200) {
-            console.log('Imagen subida', JSON.parse(xhr.response));
+            // console.log('Imagen subida', JSON.parse(xhr.response));
             resolve( JSON.parse(xhr.response));
           
           }else {
@@ -32,7 +32,7 @@ export class SubirArchivoService {
           }
         }
       }
-      console.log('URL: ', URL_SERVICIOS + '/upload/' + tipo + '/' +id);
+      // console.log('URL: ', URL_SERVICIOS + '/upload/' + tipo + '/' +id);
       let url = URL_SERVICIOS + '/upload/' + tipo + '/' +id;
      
 
