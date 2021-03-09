@@ -36,7 +36,7 @@ export class ImagenPipe implements PipeTransform {
         console.log('Tipo de imagen no existe, usuario, medicos, hospitales');
         url += '/usuarios/xxx';
     }
-
+    console.log('URL PIPE: ',url);
     return url;
   }
 

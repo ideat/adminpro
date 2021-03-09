@@ -9,7 +9,8 @@ import { Usuario } from '../../models/usuario.model';
 })
 export class HeaderComponent implements OnInit {
 
-  usuario: Usuario = new Usuario('','','');
+  usuario!: Usuario; // = new Usuario('','','');
+// = new Usuario('','','');
 
   constructor( public _usuarioService: UsuarioService) { }
 
