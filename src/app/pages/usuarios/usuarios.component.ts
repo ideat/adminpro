@@ -1,4 +1,4 @@
-import { LEADING_TRIVIA_CHARS } from '@angular/compiler/src/render3/view/template';
+
 import { Component, OnInit } from '@angular/core';
 import { ModalUploadService } from 'src/app/components/modal-upload/modal-upload.service';
 import { Usuario } from 'src/app/models/usuario.model';
