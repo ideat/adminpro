@@ -11,7 +11,7 @@ import {  map, catchError } from 'rxjs/operators';
 import Swal from 'sweetalert2';
 import { Usuario } from '../../models/usuario.model';
 import { SubirArchivoService } from '../subir-archivo/subir-archivo.service';
-import { Observable, throwError } from 'rxjs';
+import { throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -29,6 +29,24 @@ export class UsuarioService {
     
   ) {
     this.cargarStorage();
+  }
+
+  renuevaToken(){
+    let url = URL_SERVICIOS + '/login/renuevatoken';
+    url += '?token='+this.token;
+
+    return this.http.get(url)
+      .pipe(map ( (resp:any) => {
+        this.token = resp.token;
+        localStorage.setItem('token',this.token);
+
+        return true;
+      }),
+      catchError( err => {
+        this.router.navigate(['/login']);
+        Swal.fire('No se pudo renovar token','no fue posible renovar token','error');
+        return throwError(err);
+      }))
   }
 
   estaLogueado(){
@@ -151,7 +169,15 @@ export class UsuarioService {
 
         Swal.fire('Usuario actualizado', usuario.nombre, 'success');
         return true;
-      }));
+      }),
+      catchError( err => {
+
+       Swal.fire(err.error.mensaje,err.error.errors.message,'error');
+       return throwError(err);
+     
+     })
+      
+      );
   }
 
   cambiarImagen(archivo: File, id: string){
